@@ -57,6 +57,13 @@ jobs:
           path: ${{ steps.jar.outputs.jar_path }}
           retention-days: 1
 
+      - name: Upload Dockerfile artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dockerfile
+          path: Dockerfile
+          retention-days: 1
+
   provision:
     needs: build
     runs-on: ubuntu-latest
@@ -165,6 +172,12 @@ jobs:
         with:
           name: app-jar
           path: ansible/jar/
+
+      - name: Download Dockerfile artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dockerfile
+          path: ansible/files/
 
       - name: Write SSH key
         run: |
